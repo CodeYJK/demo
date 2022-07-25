@@ -1,3 +1,4 @@
+FROM jdk:1.8.0_191
 FROM maven:3.6.3
 
 WORKDIR /code
