@@ -1,4 +1,3 @@
-FROM jdk:1.8.0_191
 FROM maven:3.6.3
 
 WORKDIR /code
@@ -6,11 +5,12 @@ COPY pom.xml /code/pom.xml
 RUN mvn --batch-mode dependency:resolve
 RUN mvn --batch-mode verify
 
-# Adding source, compile and package into a fat jar
 COPY ["src/main", "/code/src/main"]
 RUN mvn --batch-mode package
 
-FROM jdk:1.8.0_141
+    environment:
+      TZ: Asia/Shanghai
+FROM jdk:1.8.0_191
 
 COPY --from=build /code/target/demo-0.0.1-SNAPSHOT.jar /app/compose/services/app/demo-0.0.1-SNAPSHOT.jar
 
