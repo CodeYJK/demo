@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TestZadig {
 
 
-    @RequestMapping(value = "/test", method = RequestMethod.POST)
+    @RequestMapping(value = "/test", method = RequestMethod.GET)
     public String testZadig(){
         return "zadig测试-Hellworld";
     }
