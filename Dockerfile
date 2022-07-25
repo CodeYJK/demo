@@ -9,8 +9,8 @@ RUN mvn --batch-mode verify
 COPY ["src/main", "/code/src/main"]
 RUN mvn --batch-mode package
 
-FROM jdk:1.8.0_191
+FROM jdk:1.8.0_141
 
-COPY --from=build /code/target/demo-0.0.1-SNAPSHOT.jar /demo-0.0.1-SNAPSHOT.jar
+COPY --from=build /code/target/demo-0.0.1-SNAPSHOT.jar /app/compose/services/app/demo-0.0.1-SNAPSHOT.jar
 
 CMD ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "/demo-0.0.1-SNAPSHOT.jar"]
