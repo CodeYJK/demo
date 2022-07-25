@@ -9,6 +9,6 @@ COPY ["src/main", "/code/src/main"]
 RUN mvn --batch-mode package
 
 FROM openjdk:8-jre-alpine
-COPY --from=build /code/target/demo-0.0.1-SNAPSHOT.jar /app/compose/services/app/demo-0.0.1-SNAPSHOT.jar
+COPY --from=MAVEN_BUILD /code/target/demo-0.0.1-SNAPSHOT.jar /app/compose/services/app/demo-0.0.1-SNAPSHOT.jar
 
 CMD ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "/app/compose/services/app/demo-0.0.1-SNAPSHOT.jar"]
