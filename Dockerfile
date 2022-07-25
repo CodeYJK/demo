@@ -1,4 +1,4 @@
-FROM maven:3.6.3-jdk-8-alpine AS build
+FROM maven:3.6.3
 
 WORKDIR /code
 COPY pom.xml /code/pom.xml
