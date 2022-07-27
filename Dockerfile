@@ -1,14 +1,14 @@
-FROM maven:3.6.3 as builder
+FROM jdk:1.8.0_191
 
-WORKDIR /code
-COPY pom.xml /code/pom.xml
-RUN mvn --batch-mode dependency:resolve
-RUN mvn --batch-mode verify
+ENV LOG_HOME=/logs/rent
+ENV LOG_LEVEL=INFO
+ENV CONFIG_NAME=item
+ENV APP_NAME=demo-0.0.1-SNAPSHOT
+ENV APPLICATION_NAME=demo
+ENV SEATA_ENV=prod
+WORKDIR /tmp
+COPY demo-0.0.1-SNAPSHOT.jar /app/demo-0.0.1-SNAPSHOT.jar
 
-COPY ["src/main", "/code/src/main"]
-RUN mvn --batch-mode package
+# 以下兼顾 变量替换 以及 java pid=1
+ENTRYPOINT exec java -Xms256m -Xmx512m -Dfile.encoding=utf-8 -jar /app/$APP_NAME.jar  --logback.log-home=$LOG_HOME --logback.log-file=zulin-$CONFIG_NAME
 
-FROM openjdk:8-jre-alpine
-COPY --from=builder /code/target/demo-0.0.1-SNAPSHOT.jar /app/compose/services/app/demo-0.0.1-SNAPSHOT.jar
-
-CMD ["java", "-XX:+UnlockExperimentalVMOptions", "-XX:+UseCGroupMemoryLimitForHeap", "-jar", "/app/compose/services/app/demo-0.0.1-SNAPSHOT.jar"]
